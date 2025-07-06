@@ -1,0 +1,157 @@
+:root{
+  --colAndRowsNumber: 3;
+  --colSize: 150px;
+}
+
+body{
+  background-color: black;
+  font-family: "Raleway", sans-serif;
+  color: white;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.custom-select{
+  background-color: #020202;
+  border-radius: 15px;
+  color: #ffffff;
+  padding: 5px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.game{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.container{
+  display: grid;
+  grid-template-rows: repeat(var(--colAndRowsNumber), var(--colSize));
+  grid-template-columns: repeat(var(--colAndRowsNumber), var(--colSize));
+  gap: 5px;
+  transition: ease, 0.5s;
+}
+
+.cell{
+  border: 5px solid white;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: var(--colSize);
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+  transition: ease 0.5s;
+  width: var(--colSize);
+  height: var(--colSize);
+  transition: all linear 0.5s;
+}
+
+.score{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #bcbcbc;
+  font-size: x-large;
+}
+
+.sheet{
+  display: grid;
+  grid-template-rows: 50px 50px;
+  grid-template-columns: 120px 100px 120px 100px 100px;
+  gap: 10px;
+}
+
+.player{
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+
+.vsComputer:hover, .vsPlayer:hover{
+  color: white;
+  cursor: pointer;
+}
+
+.xscore, .tiescore, .oscore{
+  font-size: 40px;
+}
+
+.x, .o, .tie {
+  transition: ease-in-out 0.5s;
+}
+
+.cell:hover{
+  background-color: #bcbcbc;
+}
+
+@media (max-width: 768px) {
+  .container {
+  grid-template-rows: repeat(var(--colAndRowsNumber), var(--colSize * 0.8));
+  grid-template-columns: repeat(var(--colAndRowsNumber), var(--colSize * 0.8));
+  }
+
+  .cell {
+    font-size: 70px;
+    border-width: 3px;
+  }
+
+  .sheet {
+    grid-template-columns: 100px 80px 100px 80px 80px;
+    gap: 8px;
+  }
+
+  .xscore, .tiescore, .oscore {
+    font-size: 30px;
+  }
+
+  .score {
+    font-size: large;
+  }
+}
+
+
+@media (max-width: 480px) {
+  :root{
+    --colSize: 70px;
+  }
+
+  .container {
+  grid-template-rows: repeat(var(--colAndRowsNumber), var(--colSize));
+  grid-template-columns: repeat(var(--colAndRowsNumber), var(--colSize));
+  }
+
+  .cell {
+    font-size: 50px;
+    border-width: 2px;
+  }
+
+  .sheet {
+    grid-template-columns: 85px 60px 85px 70px 70px;;
+    grid-template-rows: auto auto auto;
+    gap: 0px;
+  }
+
+  .score {
+    flex-direction: column;
+    margin-top: 20px;
+    font-size: medium;
+  }
+
+  .xscore, .tiescore, .oscore {
+    font-size: 24px;
+  }
+
+  .vsComputer, .vsPlayer {
+    font-size: 18px;
+  }
+}
