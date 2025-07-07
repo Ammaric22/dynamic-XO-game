@@ -1,6 +1,6 @@
 :root{
   --colAndRowsNumber: 3;
-  --colSize: 150px;
+  --colSize: calc(450px / var(--colAndRowsNumber));
 }
 
 body{
@@ -24,7 +24,7 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 }
 
 .game{
@@ -95,63 +95,56 @@ body{
 }
 
 @media (max-width: 768px) {
-  .container {
-  grid-template-rows: repeat(var(--colAndRowsNumber), var(--colSize * 0.8));
-  grid-template-columns: repeat(var(--colAndRowsNumber), var(--colSize * 0.8));
+  :root {
+    --colSize: 50px;
   }
-
+  
   .cell {
-    font-size: 70px;
-    border-width: 3px;
-  }
-
-  .sheet {
-    grid-template-columns: 100px 80px 100px 80px 80px;
-    gap: 8px;
-  }
-
-  .xscore, .tiescore, .oscore {
-    font-size: 30px;
-  }
-
-  .score {
-    font-size: large;
-  }
-}
-
-
-@media (max-width: 480px) {
-  :root{
-    --colSize: 70px;
-  }
-
-  .container {
-  grid-template-rows: repeat(var(--colAndRowsNumber), var(--colSize));
-  grid-template-columns: repeat(var(--colAndRowsNumber), var(--colSize));
-  }
-
-  .cell {
-    font-size: 50px;
+    font-size: calc(var(--colSize) * 0.6);
     border-width: 2px;
   }
 
   .sheet {
-    grid-template-columns: 85px 60px 85px 70px 70px;;
-    grid-template-rows: auto auto auto;
-    gap: 0px;
+    gap: 6px;
+    font-size: 0.95rem;
+  }
+
+  .xscore,
+  .tiescore,
+  .oscore {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --colSize: 35px;
+  }
+
+  .cell {
+    font-size: calc(var(--colSize) * 0.5);
+    border-width: 1.5px;
+  }
+
+  .sheet {
+    grid-template-columns: repeat(5, minmax(20px, 1fr));
+    gap: 4px;
+    font-size: 0.8rem;
+  }
+
+  .xscore,
+  .tiescore,
+  .oscore {
+    font-size: 1.25rem;
+  }
+
+  .vsPlayer,
+  .vsComputer {
+    font-size: 0.8rem;
   }
 
   .score {
+    font-size: 0.9rem;
     flex-direction: column;
-    margin-top: 20px;
-    font-size: medium;
-  }
-
-  .xscore, .tiescore, .oscore {
-    font-size: 24px;
-  }
-
-  .vsComputer, .vsPlayer {
-    font-size: 18px;
   }
 }
