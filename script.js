@@ -19,7 +19,6 @@ let cells = [];
 let winConditions = [];
 
 document.documentElement.style.setProperty('--colAndRowsNumber', gridSize);
-document.documentElement.style.setProperty('--colSize', (450/gridSize) + "px");
 
 window.onload = function (){
   for(let i = 0; i < noOfCells; i++){
@@ -104,6 +103,7 @@ function checkWin() {
   return winConditions.some(line => {
     let linesIndex = line.map(index => board[index]);
     if (linesIndex[0] != '' && linesIndex.every(cell => cell === linesIndex[0])){
+      line.forEach(index => cells[index].style.color = `${colors[linesIndex[0]]}`)
       return true;
     } else return false;
   })
@@ -141,7 +141,6 @@ function handleOptionchange(e){
   board = Array(noOfCells).fill("");
   cells.forEach(cell => cell.addEventListener("click", handleClick));
   document.documentElement.style.setProperty('--colAndRowsNumber', gridSize);
-  document.documentElement.style.setProperty('--colSize', (450/gridSize) + "px");
   clearBoard();
   createWins();
 }
