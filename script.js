@@ -5,6 +5,7 @@ const scoreTieEl = document.querySelector(".tiescore");
 const playerXEl = document.querySelector(".x");
 const playerOEl = document.querySelector(".o");
 const tieEl = document.querySelector(".tie");
+const undoRedoContainer = document.querySelector('.undoRedo');
 let firstPlayer = document.getElementById("first");
 let size = document.getElementById("size");
 
@@ -17,6 +18,8 @@ let board = Array(noOfCells).fill("");
 let colors = {X:"blue", O: "red", tie: "green"};
 let cells = [];
 let winConditions = [];
+let everyMove = [];
+let undos = [];
 
 document.documentElement.style.setProperty('--colAndRowsNumber', gridSize);
 
@@ -28,9 +31,10 @@ window.onload = function (){
   }
   createWins();
   cells = Array.from(document.querySelectorAll(".cell"));
-  cells.forEach(cell => cell.addEventListener("click", handleClick));
 }
 
+//this function creates an array of arrays each win condition in an array of its own
+//the size of the array created changes depending on the grid size that the user selects.
 function createWins(){
   //creating the horizontal win conditions:
   for(let i = 0; i < noOfCells; i += gridSize){
@@ -71,9 +75,12 @@ function createWins(){
   }
 }
 
+//this function handle every click on the board,
+//It checks for every cell if its empty or not and calls the checkWin function until there is no empty cell or there is a win.
 function handleClick(e){
   let index = cells.indexOf(e.target);
   if (e.target.textContent === '' && gameActive){
+    everyMove.push(index);
     board[index] = currentPlayer;
     e.target.textContent = currentPlayer;
   } else return;
@@ -91,14 +98,17 @@ function handleClick(e){
   }
   if (gameActive){
       currentPlayer = currentPlayer === "X" ? "O" : "X";
-}}
+  }
+}
 
+//this function updates the scores in the html after every game.
 function updateScores(){
   scorexEl.textContent = scores.X;
   scoreoEl.textContent = scores.O;
   scoreTieEl.textContent = scores.tie;
 }
 
+//this function checks if there is a win after each move.
 function checkWin() {
   return winConditions.some(line => {
     let linesIndex = line.map(index => board[index]);
@@ -109,7 +119,31 @@ function checkWin() {
   })
 }
 
+// this function handles the undo & redo buttons the program stores every move index in an array called everyMove.
+// and each undo pops the last index in the everyMove array and stores it in the undos array.
+//each redo pops the last index in the undos array and stores it in the everyMove array.
+function undoRedoHandler(e){
+  //the undo part:
+  if(e.target.classList.contains("undo") && everyMove.length > 0){
+    let lastMove = everyMove.pop();
+    currentPlayer = board[lastMove];
+    undos.push(lastMove);
+    board[lastMove] = '';
+    cells[lastMove].textContent = '';
+    console.log(undos);
+  //the redo part:
+  } else if(e.target.classList.contains("redo") && undos.length > 0){
+    let lastUndo = undos.pop();
+    board[lastUndo] = currentPlayer;
+    cells[lastUndo].textContent = currentPlayer;
+    if (gameActive){
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+    }
+    everyMove.push(lastUndo);
+  }
+}
 
+//this function resets the game after each game.
 function clearBoard(){
     board = Array(noOfCells).fill("");
     cells.forEach(cell => cell.textContent = '');
@@ -119,9 +153,15 @@ function clearBoard(){
     playerXEl.style.color = "#bcbcbc";
     tieEl.style.color = "#bcbcbc";
     currentPlayer = firstPlayer.value || "X";
+    everyMove = [];
+    undos = [];
 }
 
+//this function resets the game if the user change any of the options
+//also it updates the game based on those changes.
 function handleOptionchange(e){
+  undos = [];
+  everyMove = [];
   winConditions = [];
   currentPlayer = e.target.value;
   gridSize = Number(size.value);
@@ -139,7 +179,7 @@ function handleOptionchange(e){
   }}
   cells = Array.from(document.querySelectorAll(".cell"));
   board = Array(noOfCells).fill("");
-  cells.forEach(cell => cell.addEventListener("click", handleClick));
+  container.addEventListener("click", handleClick);
   document.documentElement.style.setProperty('--colAndRowsNumber', gridSize);
   clearBoard();
   createWins();
@@ -148,3 +188,5 @@ function handleOptionchange(e){
  
 firstPlayer.addEventListener("change", handleOptionchange);
 size.addEventListener("change", handleOptionchange);
+container.addEventListener("click", handleClick);
+undoRedoContainer.addEventListener("click", undoRedoHandler);
