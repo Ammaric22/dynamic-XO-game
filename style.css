@@ -13,7 +13,7 @@ body{
 }
 
 .custom-select{
-  background-color: #020202;
+  background-color: #000000;
   border-radius: 15px;
   color: #ffffff;
   padding: 5px;
@@ -67,7 +67,7 @@ body{
 .sheet{
   display: grid;
   grid-template-rows: 50px 50px;
-  grid-template-columns: 120px 100px 120px 100px 100px;
+  grid-template-columns: 120px 100px 120px;
   gap: 10px;
 }
 
@@ -77,10 +77,6 @@ body{
   justify-self: center;
 }
 
-.vsComputer:hover, .vsPlayer:hover{
-  color: white;
-  cursor: pointer;
-}
 
 .xscore, .tiescore, .oscore{
   font-size: 40px;
@@ -93,6 +89,7 @@ body{
 .cell:hover{
   background-color: #bcbcbc;
 }
+
 
 @media (max-width: 768px) {
   :root {
@@ -127,7 +124,7 @@ body{
   }
 
   .sheet {
-    grid-template-columns: repeat(5, minmax(20px, 1fr));
+    grid-template-columns: repeat(3, minmax(20px, 1fr));
     gap: 4px;
     font-size: 0.8rem;
   }
